@@ -1,14 +1,29 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
-import { Session, User } from "next-auth";
+import { Session, User, getServerSession } from "next-auth";
 import { fetchJson } from "@/lib";
+import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next"
+
+// You'll need to import and pass this
+// to `NextAuth` in `app/api/auth/[...nextauth]/route.ts`
+export const config = {
+  providers: [], // rest of your config
+} satisfies NextAuthOptions
+
+// Use it in server contexts
+export function auth(...args: [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]] | [NextApiRequest, NextApiResponse] | []) {
+  return getServerSession(...args, config)
+}
 
 export const jwt = async ({ token, user }: { token: JWT; user?: any }) => {
   if (user) {
-    token.token = user.token;
+    token.status = user.status;
+    token.name = user.usernm;
+    token.id = user._id
     token.user = user;
   }
+  
   return { ...token, ...user };
 };
 
@@ -19,24 +34,24 @@ export const session = ({
   session: Session;
   token: JWT;
 }): Promise<Session> => {
-  if (Date.now() / 1000 > token?.accessTokenExpires) {
-    return Promise.reject({
-      error: new Error(
-        "Refresh token has expired. Please log in again to get a new refresh token."
-      ),
-    });
-  }
+
+  console.log("token = ",token);
+
+  // if (Date.now() / 1000 > token?.accessTokenExpires) {
+  //   return Promise.reject({
+  //     error: new Error(
+  //       "Refresh token has expired. Please log in again to get a new refresh token."
+  //     ),
+  //   });
+  // }
+  
+  
   const accessTokenData = JSON.parse(
     atob(token.token?.access_token?.split(".")?.at(1)!)
   );
-
+  console.log(token);
   session.user = accessTokenData;
-  session.userInfo = token.user;
-  token.accessTokenExpires = accessTokenData.exp;
-
   // @ts-ignore
-  session.token = token?.token;
-
   return Promise.resolve(session);
 };
 
@@ -105,7 +120,6 @@ declare module "next-auth" {
     };
     error?: string;
     user?: User;
-    userInfo?: User;
   }
 
 }

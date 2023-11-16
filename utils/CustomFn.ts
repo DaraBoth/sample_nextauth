@@ -107,7 +107,7 @@ export function functionRenderColumns(rows: any) {
     };
     if (title === "Name") {
       newColumns[i] = Object.assign(newColumns[i], {
-        minWidth: 110,
+        minWidth: 220,
         headerAlign: "left",
         align: "left",
         hideable: false,
@@ -123,8 +123,8 @@ export function functionRenderColumns(rows: any) {
     if (title === "ID") {
       newColumns[i] = Object.assign(newColumns[i], {
         hidden: false,
-        minWidth: 60,
-        width: 60,
+        minWidth: 35,
+        width: 35,
       });
     }
   }

@@ -1,42 +1,20 @@
 "use client"
-import React, { Fragment, useState } from 'react'
-import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
+import React, { useState } from 'react'
+import { Dialog, Popover } from '@headlessui/react'
 import {
-    ArrowPathIcon,
     Bars3Icon,
-    ChartPieIcon,
-    CursorArrowRaysIcon,
-    FingerPrintIcon,
-    SquaresPlusIcon,
     XMarkIcon,
     ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import { signOut } from 'next-auth/react';
 import Link from 'next/link'
-
-const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-]
-const callsToAction = [
-    { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-    { name: 'Contact sales', href: '#', icon: PhoneIcon },
-]
-
-function classNames(...classes: any) {
-    return classes.filter(Boolean).join(' ')
-}
 
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     const handleSignout = async () => {
-        const result = await signOut();
+        return await signOut();
     }
 
     return (
@@ -69,7 +47,7 @@ const Header = () => {
                     <Link href="/" className="text-sm font-semibold leading-6 text-gray-900">
                         Home
                     </Link>
-                    <Link href="/table" className="text-sm font-semibold leading-6 text-gray-900">
+                    <Link href="/table?id=1" className="text-sm font-semibold leading-6 text-gray-900">
                         Table
                     </Link>
                 </Popover.Group>
@@ -117,7 +95,7 @@ const Header = () => {
                                     Home
                                 </Link>
                                 <Link
-                                    href="/table"
+                                    href="/table?id=1"
                                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                 >
                                     Table
