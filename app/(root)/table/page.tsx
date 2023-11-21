@@ -1,6 +1,5 @@
 import CustomTable from "@/app/components/CustomTable"
 import { getMemberByGroupId, getTripsByGroupId } from "@/app/services/api";
-import { auth } from "@/lib";
 
 const Page = async ({
   searchParams,
@@ -10,7 +9,6 @@ const Page = async ({
   const groupID = Number(searchParams.id);
   const getMember = await getMemberByGroupId(groupID);
   const getTrip = await getTripsByGroupId(groupID);
-  const session = await auth();
 
   return (
     <div>

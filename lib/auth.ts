@@ -3,28 +3,36 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 import { Session, User, getServerSession } from "next-auth";
 import { fetchJson } from "@/lib";
-import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next"
+import type {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 
 // You'll need to import and pass this
 // to `NextAuth` in `app/api/auth/[...nextauth]/route.ts`
 export const config = {
   providers: [], // rest of your config
-} satisfies NextAuthOptions
+} satisfies NextAuthOptions;
 
 // Use it in server contexts
-export function auth(...args: [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]] | [NextApiRequest, NextApiResponse] | []) {
-  return getServerSession(...args, config)
+export function auth(
+  ...args:
+    | [GetServerSidePropsContext["req"], GetServerSidePropsContext["res"]]
+    | [NextApiRequest, NextApiResponse]
+    | []
+) {
+  return getServerSession(...args, config);
 }
 
 export const jwt = async ({ token, user }: { token: JWT; user?: any }) => {
   if (user) {
     token.status = user.status;
     token.name = user.usernm;
-    token.id = user._id
+    token.email = user._id;
     token.user = user;
   }
-  
-  return { ...token, ...user };
+  return token;
 };
 
 export const session = ({
@@ -34,23 +42,6 @@ export const session = ({
   session: Session;
   token: JWT;
 }): Promise<Session> => {
-
-  console.log("token = ",token);
-
-  // if (Date.now() / 1000 > token?.accessTokenExpires) {
-  //   return Promise.reject({
-  //     error: new Error(
-  //       "Refresh token has expired. Please log in again to get a new refresh token."
-  //     ),
-  //   });
-  // }
-  
-  
-  const accessTokenData = JSON.parse(
-    atob(token.token?.access_token?.split(".")?.at(1)!)
-  );
-  console.log(token);
-  session.user = accessTokenData;
   // @ts-ignore
   return Promise.resolve(session);
 };
@@ -82,9 +73,8 @@ export const authOption: NextAuthOptions = {
         );
 
         if (response.status) {
+          console.log("response = ", response);
 
-          console.log("response = ",response);
-          
           return response;
         }
 
@@ -115,14 +105,19 @@ declare module "next-auth" {
     accessTokenExpires?: string;
     refreshToken?: string;
     token: {
-      access_token: string; 
+      access_token: string;
       refresh_token: string;
     };
     error?: string;
     user?: User;
   }
-
 }
+
+type Users = {
+  _id: number;
+  status: string;
+  usernm: string;
+};
 
 declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
@@ -137,6 +132,6 @@ declare module "next-auth/jwt" {
     exp?: number;
     iat?: number;
     jti?: string;
-    user?: User;
+    user?: Users;
   }
 }

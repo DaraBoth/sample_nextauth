@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Layout = async (props: { children: React.ReactNode }) => {
     return (
@@ -22,6 +23,7 @@ const Layout = async (props: { children: React.ReactNode }) => {
                     {props.children}
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
