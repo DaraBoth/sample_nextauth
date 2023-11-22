@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
+  experimental:{
+    serverActions:true
+  },
   env: {
     NEXTAUTH_SECRET: "mQ46qpFwfE1BHuqMC+qlm19qBAD9fVPgh28werwe3ASFlAfnKjM=",
     NEXT_APIURL: "https://api.tinynotie.bio",
