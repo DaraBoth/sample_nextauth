@@ -50,7 +50,7 @@ const CustomTable = (props: { members: Member[], trips: any }) => {
     const columns: Column[] = functionRenderColumns(rows);
 
     return (
-        <div className='overflow-x-auto rounded-xl max-h-[660px] md:max-h-[485px]  shadow-md'>
+        <div className='overflow-x-auto rounded-xl max-h-[660px] md:max-h-[465px]  shadow-md'>
             <Table theme={{...customTheme} as any} hoverable >
                 <Table.Head>
                     {columns.map((column) => {
