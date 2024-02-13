@@ -21,7 +21,7 @@ const FormLogin = () => {
                 setIsLoading(2);
                 setTimeout(()=>{
                     setIsLoading(0);
-                },1500)
+                },2000)
             }
         }} className="space-y-6">
             <div>

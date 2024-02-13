@@ -1,8 +1,6 @@
 import React from 'react'
-import clsx from 'clsx'
-import { signIn } from 'next-auth/react'
-import { redirect } from 'next/navigation'
 import FormLogin from './_formLogin/FormLogin'
+import OAuthLogin from './_formLogin/OAuthLogin'
 
 const Page = () => {
     return (
@@ -14,12 +12,7 @@ const Page = () => {
             </div>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <FormLogin />
-                <p className="mt-10 text-center text-sm text-gray-500">
-                    Don&apos;t have an account?{' '}
-                    <a target="_blank" href="https://www.tinynotie.bio" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
-                        Go register
-                    </a>
-                </p>
+                <OAuthLogin />
             </div>
         </div>
 

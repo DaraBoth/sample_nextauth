@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { JWT } from "next-auth/jwt";
 import { Session, User, getServerSession } from "next-auth";
 import { fetchJson } from "@/lib";
@@ -81,6 +82,49 @@ export const authOption: NextAuthOptions = {
         throw new Error(response?.message || "Invalid username or password");
       },
     }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      async profile(profile) {
+        let userInfo: any = {};
+        userInfo = await fetchJson(
+          "https://api.tinynotie.bio" + "/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              usernm: profile?.email,
+              passwd: profile?.sub,
+            }),
+          }
+        );
+        if (!userInfo.status) {
+          userInfo = await fetchJson(
+            "https://api.tinynotie.bio" +
+              "/auth/register?usernm=" +
+              profile?.email +
+              "&passwd=" +
+              profile?.providerAccountId,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
+        return {
+          id: profile.sub,
+          _id: userInfo._id,
+          usernm: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          status: userInfo.status,
+        };
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -89,6 +133,12 @@ export const authOption: NextAuthOptions = {
   callbacks: {
     jwt,
     session,
+    async signIn({ account, profile }: { account?: any; profile?: any }) {
+      if (account.provider === "google") {
+        return profile.email_verified && profile.email.endsWith("@gmail.com")
+      }
+      return false; // Do different verification for other providers that don't have `email_verified`
+    },
   },
   pages: {
     signIn: "/login",
@@ -109,7 +159,7 @@ declare module "next-auth" {
       refresh_token: string;
     };
     error?: string;
-    user?: User;
+    user?: Users;
   }
 }
 

@@ -1,4 +1,5 @@
-import CustomTable from "@/app/components/CustomTable"
+import CustomTable from "@/app/components/TablePage/CustomTable"
+import Setting from "@/app/components/TablePage/Setting";
 import { getMemberByGroupId, getTripsByGroupId } from "@/app/services/api";
 
 const Page = async ({
@@ -13,6 +14,7 @@ const Page = async ({
   return (
     <div>
       <div className="w-full h-4/5 mx-auto my-auto">
+        {/* <Setting /> */}
         <CustomTable members={getMember.data} trips={getTrip.data} />
       </div>
     </div>
