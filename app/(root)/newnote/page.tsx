@@ -3,7 +3,7 @@ import NewNoteForm from './_form/NewNoteForm';
 import { auth } from '@/lib';
 
 const Page = async () => {
-    const session = await auth();
+    const session:any = await auth();
 
     return (
         <NewNoteForm userID={session?.user?.email} />
