@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   env: {
     NEXTAUTH_SECRET: "mQ46qpFwfE1BHuqMC+qlm19qBAD9fVPgh28werwe3ASFlAfnKjM=",
-    NEXT_APIURL: "https://api.tinynotie.bio",
+    NEXT_APIURL: "https://tinynotie-api.vercel.app",
     // NEXT_APIURL: "http://localhost:9000",
   },
   images: {
