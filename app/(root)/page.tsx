@@ -17,7 +17,7 @@ type Data = {
 
 export default async function Home() {
 
-    const session = await auth();
+    const session:any = await auth();
     const getRandomColor = () => {
         const colors = ['#fca5a5', '#fcd34d', '#68d391', '#63b3ed', '#a0aec0']; // Add more colors as needed
         const randomIndex = Math.floor(Math.random() * colors.length);
