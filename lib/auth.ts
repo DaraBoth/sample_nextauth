@@ -167,6 +167,7 @@ type Users = {
   _id: number;
   status: string;
   usernm: string;
+  email: string;
 };
 
 declare module "next-auth/jwt" {
