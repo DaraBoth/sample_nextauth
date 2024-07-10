@@ -88,7 +88,7 @@ export const authOption: NextAuthOptions = {
       async profile(profile) {
         let userInfo: any = {};
         userInfo = await fetchJson(
-          "https://api.tinynotie.bio" + "/auth/login",
+          "https://tinynotie-api.vercel.app" + "/auth/login",
           {
             method: "POST",
             headers: {
@@ -102,7 +102,7 @@ export const authOption: NextAuthOptions = {
         );
         if (!userInfo.status) {
           userInfo = await fetchJson(
-            "https://api.tinynotie.bio" +
+            "https://tinynotie-api.vercel.app" +
               "/auth/register?usernm=" +
               profile?.email +
               "&passwd=" +
