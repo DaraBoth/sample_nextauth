@@ -63,7 +63,7 @@ export const authOption: NextAuthOptions = {
         };
 
         const response: any = await fetchJson(
-          "https://api.tinynotie.bio" + "/auth/login",
+          "https://tinynotie-api.vercel.app" + "/auth/login",
           {
             method: "POST",
             headers: {
