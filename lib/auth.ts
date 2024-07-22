@@ -27,6 +27,8 @@ export function auth(
 }
 
 export const jwt = async ({ token, user }: { token: JWT; user?: any }) => {
+  console.log({token})
+  console.log({user})
   if (user) {
     token.status = user.status;
     token.name = user.usernm;

@@ -16,7 +16,8 @@ const FormLogin = () => {
             })
             if(result?.ok){
                 setIsLoading(3);
-                redirect("/");
+                console.log({result})
+                // redirect("/");
             }else {
                 setIsLoading(2);
                 setTimeout(()=>{
