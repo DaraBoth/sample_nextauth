@@ -45,6 +45,8 @@ export const session = ({
   session: Session;
   token: JWT;
 }): Promise<Session> => {
+  console.log({session})
+  console.log({token})
   // @ts-ignore
   return Promise.resolve(session);
 };
