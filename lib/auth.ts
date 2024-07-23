@@ -74,7 +74,7 @@ export const authOption: NextAuthOptions = {
             body: JSON.stringify(authRequest),
           }
         );
-
+        console.log({response})
         if (response.status) {
           console.log("response = ", response);
 
